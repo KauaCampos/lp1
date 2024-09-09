@@ -80,18 +80,6 @@ class ListaComArray {
         this.tamanho++;
     }
 
-    public void ordenar() {
-        for (int i = 0; i < this.tamanho - 1; i++) {
-            for (int j = i + 1; j < this.tamanho; j++) {
-                if (this.elementos[i] > this.elementos[j]) {
-                    Integer temp = this.elementos[i];
-                    this.elementos[i] = this.elementos[j];
-                    this.elementos[j] = temp;
-                }
-            }
-        }
-    }
-
     private void redimensionar() {
         Integer[] novoArray = new Integer[this.elementos.length * 2];
         for (int i = 0; i < this.elementos.length; i++) {
