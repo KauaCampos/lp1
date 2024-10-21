@@ -2,6 +2,15 @@ package br.cefetmg.inf.llp.lista12.p1042_fila;
 
 import java.util.Scanner;
 
+interface Fila {
+    void enqueue(Integer valor) throws PosicaoInvalidaException;
+    Integer dequeue() throws NenhumItemException;
+    Integer peek() throws NenhumItemException;
+    boolean isEmpty();
+    int getSize();
+    Integer[] toArray() throws NenhumItemException;
+}
+
 class NenhumItemException extends Exception {
     public NenhumItemException(String mensagem) {
         super(mensagem);
@@ -14,7 +23,7 @@ class PosicaoInvalidaException extends Exception {
     }
 }
 
-class FilaArray {
+class FilaArray implements Fila {
     private Integer[] fila;
     private int frente;
     private int traseira;
@@ -27,6 +36,7 @@ class FilaArray {
         tamanho = 0;
     }
 
+    @Override
     public void enqueue(Integer valor) throws PosicaoInvalidaException {
         if (tamanho == fila.length) {
             throw new PosicaoInvalidaException("Capacidade da fila excedida.");
@@ -36,6 +46,7 @@ class FilaArray {
         tamanho++;
     }
 
+    @Override
     public Integer dequeue() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -46,6 +57,7 @@ class FilaArray {
         return valor;
     }
 
+    @Override
     public Integer peek() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -53,14 +65,17 @@ class FilaArray {
         return fila[frente];
     }
 
+    @Override
     public boolean isEmpty() {
         return tamanho == 0;
     }
 
+    @Override
     public int getSize() {
         return tamanho;
     }
 
+    @Override
     public Integer[] toArray() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -74,7 +89,7 @@ class FilaArray {
     }
 }
 
-class FilaEncadeada {
+class FilaEncadeada implements Fila {
     private No frente;
     private No traseira;
     private int tamanho;
@@ -85,6 +100,7 @@ class FilaEncadeada {
         tamanho = 0;
     }
 
+    @Override
     public void enqueue(Integer valor) {
         No novoNo = new No(valor);
         if (isEmpty()) {
@@ -97,6 +113,7 @@ class FilaEncadeada {
         tamanho++;
     }
 
+    @Override
     public Integer dequeue() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -110,6 +127,7 @@ class FilaEncadeada {
         return valor;
     }
 
+    @Override
     public Integer peek() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -117,14 +135,17 @@ class FilaEncadeada {
         return frente.getValor();
     }
 
+    @Override
     public boolean isEmpty() {
         return frente == null;
     }
 
+    @Override
     public int getSize() {
         return tamanho;
     }
 
+    @Override
     public Integer[] toArray() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -142,7 +163,7 @@ class FilaEncadeada {
     }
 }
 
-class FilaCircular {
+class FilaCircular implements Fila {
     private Integer[] fila;
     private int frente;
     private int traseira;
@@ -155,6 +176,7 @@ class FilaCircular {
         tamanho = 0;
     }
 
+    @Override
     public void enqueue(Integer valor) throws PosicaoInvalidaException {
         if (tamanho == fila.length) {
             throw new PosicaoInvalidaException("Capacidade da fila excedida.");
@@ -164,6 +186,7 @@ class FilaCircular {
         tamanho++;
     }
 
+    @Override
     public Integer dequeue() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -174,6 +197,7 @@ class FilaCircular {
         return valor;
     }
 
+    @Override
     public Integer peek() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -181,14 +205,17 @@ class FilaCircular {
         return fila[frente];
     }
 
+    @Override
     public boolean isEmpty() {
         return tamanho == 0;
     }
 
+    @Override
     public int getSize() {
         return tamanho;
     }
 
+    @Override
     public Integer[] toArray() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A fila está vazia.");
@@ -233,9 +260,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        FilaCircular fila = new FilaCircular(3);
-        FilaArray filaOrdenada = new FilaArray(3);
-        // FilaEncadeada filaEncadeada = new FilaEncadeada();
+        Fila fila = new FilaCircular(3);
+        Fila filaOrdenada = new FilaArray(3);
 
         Integer[] original = new Integer[3];
         for (int i = 0; i < 3; i++) {
