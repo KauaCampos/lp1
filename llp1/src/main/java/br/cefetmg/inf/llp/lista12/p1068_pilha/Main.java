@@ -2,6 +2,14 @@ package br.cefetmg.inf.llp.lista12.p1068_pilha;
 
 import java.util.Scanner;
 
+interface Pilha {
+    void push(Integer valor) throws PosicaoInvalidaException;
+    Integer pop() throws NenhumItemException;
+    Integer peek() throws NenhumItemException;
+    boolean isEmpty();
+    int getSize();
+}
+
 class NenhumItemException extends Exception {
     public NenhumItemException(String mensagem) {
         super(mensagem);
@@ -14,7 +22,7 @@ class PosicaoInvalidaException extends Exception {
     }
 }
 
-class PilhaEncadeada {
+class PilhaEncadeada implements Pilha {
     private No topo;
     private int tamanho;
 
@@ -23,6 +31,7 @@ class PilhaEncadeada {
         this.tamanho = 0;
     }
 
+    @Override
     public void push(Integer valor) {
         No novoNo = new No(valor);
         novoNo.setProximo(this.topo);
@@ -30,6 +39,7 @@ class PilhaEncadeada {
         this.tamanho++;
     }
 
+    @Override
     public Integer pop() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A pilha está vazia.");
@@ -40,6 +50,7 @@ class PilhaEncadeada {
         return valor;
     }
 
+    @Override
     public Integer peek() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A pilha está vazia.");
@@ -47,51 +58,14 @@ class PilhaEncadeada {
         return this.topo.getValor();
     }
 
+    @Override
     public boolean isEmpty() {
         return this.topo == null;
     }
 
+    @Override
     public int getSize() {
         return this.tamanho;
-    }
-}
-
-class PilhaArray {
-    private Integer[] array;
-    private int topo;
-
-    public PilhaArray(int capacidade) {
-        this.array = new Integer[capacidade];
-        this.topo = -1;
-    }
-
-    public void push(Integer valor) throws PosicaoInvalidaException {
-        if (topo == array.length - 1) {
-            throw new PosicaoInvalidaException("Capacidade da pilha excedida.");
-        }
-        array[++topo] = valor;
-    }
-
-    public Integer pop() throws NenhumItemException {
-        if (isEmpty()) {
-            throw new NenhumItemException("A pilha está vazia.");
-        }
-        return array[topo--];
-    }
-
-    public Integer peek() throws NenhumItemException {
-        if (isEmpty()) {
-            throw new NenhumItemException("A pilha está vazia.");
-        }
-        return array[topo];
-    }
-
-    public boolean isEmpty() {
-        return topo == -1;
-    }
-
-    public int getSize() {
-        return topo + 1;
     }
 }
 
@@ -135,9 +109,7 @@ public class Main {
 
             cond = true;
 
-            // Escolha de implementação de pilha:
-            PilhaEncadeada pilha = new PilhaEncadeada(); // Usando PilhaEncadeada
-            // PilhaArray pilha = new PilhaArray(1000); // Usando PilhaArray (com capacidade de 1000)
+            Pilha pilha = new PilhaEncadeada();
 
             try {
                 for (char ch : exp.toCharArray()) {
@@ -150,7 +122,7 @@ public class Main {
 
                 if (!pilha.isEmpty()) cond = false;
 
-            } catch (NenhumItemException e) {
+            } catch (NenhumItemException | PosicaoInvalidaException e) {
                 cond = false;
             }
 
