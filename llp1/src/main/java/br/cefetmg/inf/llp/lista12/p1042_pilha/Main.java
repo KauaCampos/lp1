@@ -2,6 +2,15 @@ package br.cefetmg.inf.llp.lista12.p1042_pilha;
 
 import java.util.Scanner;
 
+interface Pilha {
+    void push(Integer valor);
+    Integer pop() throws NenhumItemException;
+    Integer peek() throws NenhumItemException;
+    boolean isEmpty();
+    int getSize();
+    Integer[] toArray() throws NenhumItemException;
+}
+
 class NenhumItemException extends Exception {
     public NenhumItemException(String mensagem) {
         super(mensagem);
@@ -14,7 +23,7 @@ class PosicaoInvalidaException extends Exception {
     }
 }
 
-class PilhaEncadeada {
+class PilhaEncadeada implements Pilha {
     private No topo;
     private int tamanho;
 
@@ -23,6 +32,7 @@ class PilhaEncadeada {
         this.tamanho = 0;
     }
 
+    @Override
     public void push(Integer valor) {
         No novoNo = new No(valor);
         novoNo.setProximo(this.topo);
@@ -30,6 +40,7 @@ class PilhaEncadeada {
         this.tamanho++;
     }
 
+    @Override
     public Integer pop() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A pilha está vazia.");
@@ -40,6 +51,7 @@ class PilhaEncadeada {
         return valor;
     }
 
+    @Override
     public Integer peek() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A pilha está vazia.");
@@ -47,14 +59,17 @@ class PilhaEncadeada {
         return this.topo.getValor();
     }
 
+    @Override
     public boolean isEmpty() {
         return this.topo == null;
     }
 
+    @Override
     public int getSize() {
         return this.tamanho;
     }
 
+    @Override
     public Integer[] toArray() throws NenhumItemException {
         if (isEmpty()) {
             throw new NenhumItemException("A pilha está vazia.");
@@ -70,57 +85,6 @@ class PilhaEncadeada {
         }
         
         return array;
-    }
-}
-
-class PilhaArray {
-    private Integer[] array;
-    private int topo;
-
-    public PilhaArray(int capacidade) {
-        this.array = new Integer[capacidade];
-        this.topo = -1; 
-    }
-
-    public void push(Integer valor) throws PosicaoInvalidaException {
-        if (topo == array.length - 1) {
-            throw new PosicaoInvalidaException("Capacidade da pilha excedida.");
-        }
-        array[++topo] = valor;
-    }
-
-    public Integer pop() throws NenhumItemException {
-        if (isEmpty()) {
-            throw new NenhumItemException("A pilha está vazia.");
-        }
-        return array[topo--];
-    }
-
-    public Integer peek() throws NenhumItemException {
-        if (isEmpty()) {
-            throw new NenhumItemException("A pilha está vazia.");
-        }
-        return array[topo];
-    }
-
-    public boolean isEmpty() {
-        return topo == -1;
-    }
-
-    public int getSize() {
-        return topo + 1;
-    }
-
-    public Integer[] toArray() throws NenhumItemException {
-        if (isEmpty()) {
-            throw new NenhumItemException("A pilha está vazia.");
-        }
-
-        Integer[] result = new Integer[getSize()];
-        for (int i = 0; i <= topo; i++) {
-            result[i] = array[i];
-        }
-        return result;
     }
 }
 
@@ -155,7 +119,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        PilhaEncadeada pilha = new PilhaEncadeada();
+        Pilha pilha = new PilhaEncadeada();
 
         Integer[] original = new Integer[3];
         for (int i = 0; i < 3; i++) {
