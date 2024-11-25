@@ -1,4 +1,4 @@
-package br.cefetmg.inf.llp.lista16.p1068_Stack;
+package br.cefetmg.inf.llp.lista17.p1068_Stack;
 
 import java.util.Scanner;
 import java.util.Stack;

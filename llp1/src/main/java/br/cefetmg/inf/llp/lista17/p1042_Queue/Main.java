@@ -1,19 +1,19 @@
-package br.cefetmg.inf.llp.lista16.p1042_List;
+package br.cefetmg.inf.llp.lista17.p1042_Queue;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        List<Integer> lista = new ArrayList<>();
+        Queue<Integer> fila = new LinkedList<>();
 
         for (int i = 0; i < 3; i++) {
             try {
-                lista.add(sc.nextInt());
+                fila.add(sc.nextInt());
             } catch (InputMismatchException e) {
                 System.out.println("Erro: Você deve digitar um número inteiro. Tente novamente.");
                 sc.next();
@@ -21,7 +21,7 @@ public class Main {
             }
         }
 
-        Integer[] ordenado = lista.toArray(Integer[]::new);
+        Integer[] ordenado = fila.toArray(Integer[]::new);
         
         try {
             for (int i = 0; i < ordenado.length - 1; i++) {
@@ -40,8 +40,8 @@ public class Main {
 
             System.out.println("");
 
-            for (Integer num : lista) {
-                System.out.println(num);
+            while (!fila.isEmpty()) {
+                System.out.println(fila.remove());
             }
 
         } catch (ArrayIndexOutOfBoundsException e) {
